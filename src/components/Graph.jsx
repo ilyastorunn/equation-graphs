@@ -33,10 +33,6 @@ const Graph = () => {
     setGraphData(data);
   }, [equation, xRange]);
 
-  const handleSymbolClick = (symbol) => {
-    setEquation((prev) => prev + symbol);
-  };
-
   const saveEquation = async () => {
     if (user) {
       try {
@@ -55,53 +51,65 @@ const Graph = () => {
     }
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   return (
-    <div className="p-4">
-      <div className="mb-4">
-        <input
-          type="text"
-          value={equation}
-          onChange={(e) => setEquation(e.target.value)}
-          placeholder="Enter equation, e.g., x^2"
-          className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus: ring-blue-500"
-        />
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+    <div className="container mx-auto p-6">
+      <header className="bg-gray-800 text-white text-center py-4 rounded-t-lg">
+        <h1 className="text-2xl font-bold">Title Field</h1>
+      </header>
+
+      <div className="grid grid-cols-4 gap-4 sm:grid-cols-12 sm:gap-6 lg:grid-cols-12 lg:px-[72px] lg:gap-6 sm:px-0 px-[16px]">
+        {/* Input Section */}
+        <div className="col-span-4 sm:col-span-6">
+          <input
+            type="text"
+            value={equation}
+            onChange={(e) => setEquation(e.target.value)}
+            placeholder="Enter equation, e.g., x^2"
+            className="w-full p-2 border rounded mb-4 focus:ring focus:ring-blue-300"
+          />
+          {error && <p className="text-red-500">{error}</p>}
+
+          <MathKeyboard
+            onSymbolClick={(symbol) => setEquation((prev) => prev + symbol)}
+          />
+
+          {/* Save Button */}
+          <div className="mt-4 text-center">
+            <button
+              onClick={saveEquation}
+              disabled={!user}
+              className={`px-4 py-2 rounded ${
+                user
+                  ? "bg-green-500 hover:bg-green-600 text-white"
+                  : "bg-gray-400 text-gray-200 cursor-not-allowed"
+              }`}
+            >
+              {user ? "Save Equation" : "Sign in to Save"}
+            </button>
+          </div>
+        </div>
+
+        {/* Graph Section */}
+        <div className="col-span-4 sm:col-span-6">
+          <Plot
+            data={[
+              {
+                x: graphData.x,
+                y: graphData.y,
+                type: "scatter",
+                mode: "lines",
+                marker: { color: "blue" },
+              },
+            ]}
+            layout={{
+              title: `Graph of y = ${equation}`,
+              xaxis: { title: "x" },
+              yaxis: { title: "y" },
+            }}
+            className="w-full"
+          />
+        </div>
       </div>
-      <MathKeyboard onSymbolClick={handleSymbolClick} />
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={saveEquation}
-          className={`p-2 rounded shadow ${
-            user
-              ? "bg-green-500 text-white"
-              : "bg-gray-500 text-gray-200 cursor-not-allowed"
-          }`}
-          disabled={!user}
-        >
-          {user ? "Save Equation" : "Sign in to Save"}
-        </button>
-      </div>
-      <Plot
-        data={[
-          {
-            x: graphData.x,
-            y: graphData.y,
-            type: "scatter",
-            mode: "lines",
-            marker: { color: "blue" },
-          },
-        ]}
-        layout={{
-          title: `Graph of y = ${equation}`,
-          xaxis: { title: "x" },
-          yaxis: { title: "y" },
-        }}
-        className="w-full"
-      />
     </div>
   );
 };
