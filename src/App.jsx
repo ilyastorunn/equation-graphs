@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import { auth } from "../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Header from "./components/Header";
 
 const App = () => {
   const [user] = useAuthState(auth);
@@ -17,7 +18,7 @@ const App = () => {
 
   return (
     <Router>
-      <nav className="bg-gray-800 text-white p-4">
+      <nav className="bg-gray-800 font-roboto-condensed text-white p-4">
         <ul className="flex space-x-4">
           <li>
             <Link to="/" className="hover:underline">
@@ -51,7 +52,6 @@ const App = () => {
           )}
         </ul>
       </nav>
-
       <div className="p-4">
         <Routes>
           <Route path="/" element={<Graph />} />
@@ -61,6 +61,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    // <Header />
   );
 };
 

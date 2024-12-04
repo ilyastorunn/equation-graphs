@@ -54,7 +54,7 @@ const Graph = () => {
   return (
     <div className="container mx-auto p-6">
       <header className="bg-gray-800 text-white text-center py-4 rounded-t-lg">
-        <h1 className="text-2xl font-bold">Title Field</h1>
+        <h1 className="text-2xl font-bold font-roboto-condensed">Title Field</h1>
       </header>
 
       <div className="grid grid-cols-4 gap-4 sm:grid-cols-12 sm:gap-6 lg:grid-cols-12 lg:px-[72px] lg:gap-6 sm:px-0 px-[16px]">
